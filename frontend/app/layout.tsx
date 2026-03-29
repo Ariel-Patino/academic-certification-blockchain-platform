@@ -6,6 +6,8 @@ import { Navbar } from "@/components/layout/Navbar";
 import { WalletStatus } from "@/components/layout/WalletStatus";
 import { WalletProvider } from "@/hooks/useWallet";
 import { WrongNetworkOverlay } from "@/components/layout/WrongNetworkOverlay";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { RealtimeArchitectureStatus } from "@/components/layout/RealtimeArchitectureStatus";
 import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
 
 import "../styles/globals.css";
@@ -52,7 +54,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   <p className="eyebrow">Deep Mint Blockchain Console</p>
                   <h2>Panel de Control de Credenciales</h2>
                 </div>
-                <WalletStatus />
+                <div className="header-actions-panel">
+                  <RealtimeArchitectureStatus />
+                  <ThemeToggle />
+                  <WalletStatus />
+                </div>
               </header>
               {children}
             </div>

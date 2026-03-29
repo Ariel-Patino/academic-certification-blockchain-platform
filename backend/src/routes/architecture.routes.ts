@@ -1,9 +1,10 @@
 import { Router } from "express";
 
-import { getArchitectureStatus } from "../controllers/architecture.controller";
+import { getArchitectureStatus, streamArchitectureStatus } from "../controllers/architecture.controller";
 
 const architectureRouter = Router();
 
 architectureRouter.get("/", getArchitectureStatus);
+architectureRouter.get("/stream", streamArchitectureStatus);
 
 export default architectureRouter;

@@ -245,6 +245,33 @@ Esta dirección corresponde al contrato vigente para demos del TFM en Polygon Am
 - Historial de certificados con paginación configurable (10, 25, 50, 100 elementos).
 - Autenticación con Sign-In with Ethereum (EIP-4361) + JWT.
 - Interfaz institucional con lenguaje adaptado para entorno universitario.
+- Dashboard operativo con métricas en vivo de salud de arquitectura (Polygon/IPFS/DB).
+- Notificación en tiempo real de degradación/recuperación de servicios en frontend.
+- Tema dinámico claro/oscuro con selector persistente en cliente.
+- Endpoint SSE para streaming de estado de arquitectura (GET /api/architecture/stream).
+- Cacheo TTL en verificación por hash para reducir consultas repetidas a blockchain.
+- Alertas automáticas por webhook cuando la arquitectura entra en estado degraded o down.
+
+## Uso de Herramientas de IA
+
+Este proyecto incorporó asistencia de IA como soporte técnico para acelerar análisis, documentación y mejoras funcionales, manteniendo validación manual en cada cambio relevante.
+
+Herramientas utilizadas:
+
+- GitHub Copilot Chat (GPT-5.3-Codex), para apoyo en refactorizaciones, ajustes de arquitectura y propuestas de implementación.
+- Asistencia de IA para redacción y mejora de documentación técnica y funcional (README, manual de usuario, manual técnico, API REST, troubleshooting).
+
+Aplicaciones concretas durante el desarrollo:
+
+- Detección de brechas de documentación y estructuración de documentación por audiencias (usuario, técnico, operación).
+- Propuesta e implementación asistida de mejoras incrementales en frontend y backend (dashboard, estado en tiempo real por SSE, cacheo TTL, alertas por webhook, tema claro/oscuro).
+- Revisión de consistencia entre configuración de entorno, endpoints expuestos y flujo funcional de la aplicación.
+
+Criterio de uso responsable:
+
+- La IA se utilizó como herramienta de apoyo, no como sustituto del criterio técnico.
+- Las decisiones finales de diseño, integración y validación fueron revisadas manualmente.
+- No se empleó IA para exponer credenciales ni para automatizar acciones fuera del control del desarrollador.
 
 ## Pruebas y Cobertura
 

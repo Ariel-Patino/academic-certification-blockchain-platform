@@ -161,6 +161,7 @@ Variables backend correctas:
 ```env
 MONGO_URI=mongodb://127.0.0.1:27017
 MONGO_DATABASE_NAME=tfm_certificacion_blockchain
+ALERT_WEBHOOK_URL=
 ```
 
 Nota:

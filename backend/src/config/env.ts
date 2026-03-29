@@ -23,6 +23,7 @@ export interface AppEnv {
   jwtAudience: string;
   jwtExpiresIn: string;
   siweNonceTtlSeconds: number;
+  alertWebhookUrl: string | null;
 }
 
 const readRequired = (key: string): string => {
@@ -146,5 +147,6 @@ export const env: AppEnv = {
   jwtIssuer: process.env.JWT_ISSUER?.trim() || "tfm-certificacion-backend",
   jwtAudience: process.env.JWT_AUDIENCE?.trim() || "tfm-certificacion-frontend",
   jwtExpiresIn: process.env.JWT_EXPIRES_IN?.trim() || "2h",
-  siweNonceTtlSeconds: readSiweNonceTtlSeconds()
+  siweNonceTtlSeconds: readSiweNonceTtlSeconds(),
+  alertWebhookUrl: readOptional("ALERT_WEBHOOK_URL")
 };

@@ -18,6 +18,10 @@ export interface ArchitectureHealthReport {
   overallStatus: "healthy" | "degraded" | "down";
 }
 
+const ALERT_COOLDOWN_MS = 5 * 60 * 1000;
+let lastAlertAt = 0;
+let lastAlertStatus: "healthy" | "degraded" | "down" | null = null;
+
 const withTimeout = async <T>(promise: Promise<T>, timeoutMs: number): Promise<T> => {
   const timeout = new Promise<never>((_, reject) => {
     setTimeout(() => {
@@ -181,7 +185,7 @@ export const getArchitectureHealthReport = async (): Promise<ArchitectureHealthR
     checkDatabaseHealth()
   ]);
 
-  return {
+  const report: ArchitectureHealthReport = {
     checkedAt: new Date().toISOString(),
     environment: env.nodeEnv,
     polygon,
@@ -189,4 +193,34 @@ export const getArchitectureHealthReport = async (): Promise<ArchitectureHealthR
     database,
     overallStatus: computeOverallStatus([polygon, ipfs, database])
   };
+
+  if (env.alertWebhookUrl && report.overallStatus !== "healthy") {
+    const now = Date.now();
+    const shouldSendAlert =
+      lastAlertStatus !== report.overallStatus || now - lastAlertAt > ALERT_COOLDOWN_MS;
+
+    if (shouldSendAlert) {
+      void fetch(env.alertWebhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event: "architecture-health-alert",
+          severity: report.overallStatus,
+          report
+        })
+      }).catch((error: unknown) => {
+        const message = error instanceof Error ? error.message : "Unknown alert webhook error";
+        console.warn(`[architecture.service] Failed to send alert webhook: ${message}`);
+      });
+
+      lastAlertAt = now;
+      lastAlertStatus = report.overallStatus;
+    }
+  }
+
+  if (report.overallStatus === "healthy") {
+    lastAlertStatus = "healthy";
+  }
+
+  return report;
 };

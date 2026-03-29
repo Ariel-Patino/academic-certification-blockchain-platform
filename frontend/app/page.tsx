@@ -1,6 +1,7 @@
 // Landing page that explains the current scope of the web application.
 import { HomeActions } from "@/components/layout/HomeActions";
 import { PageContainer } from "@/components/layout/PageContainer";
+import { InsightsPanel } from "@/components/dashboard/InsightsPanel";
 
 export default function HomePage() {
   return (
@@ -11,6 +12,7 @@ export default function HomePage() {
         <p>Emita, verifique y consulte títulos académicos con respaldo digital seguro y trazable.</p>
         <HomeActions />
       </section>
+      <InsightsPanel />
     </PageContainer>
   );
 }

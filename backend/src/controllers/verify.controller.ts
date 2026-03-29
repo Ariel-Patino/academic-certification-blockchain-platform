@@ -11,6 +11,9 @@ import {
 
 const HASH_REGEX = /^0x[a-fA-F0-9]{64}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const VERIFY_CACHE_TTL_MS = 20_000;
+
+const verifyCache = new Map<string, { expiresAt: number; data: unknown; message: string }>();
 
 const extractCertificateHash = (request: Request): string => {
   const queryHash = typeof request.query.certificateHash === "string" ? request.query.certificateHash : "";
@@ -31,7 +34,21 @@ const extractCertificateHash = (request: Request): string => {
 export const verifyCertificateByHash = async (request: Request, response: Response, next: NextFunction) => {
   try {
     const certificateHash = extractCertificateHash(request);
+    const now = Date.now();
+    const cached = verifyCache.get(certificateHash);
+
+    if (cached && cached.expiresAt > now) {
+      response.status(200).json(createSuccessResponse(cached.message, cached.data));
+      return;
+    }
+
     const result = await verifyCertificate(certificateHash);
+    verifyCache.set(certificateHash, {
+      expiresAt: now + VERIFY_CACHE_TTL_MS,
+      data: result.data,
+      message: result.message
+    });
+
     response.status(200).json(createSuccessResponse(result.message, result.data));
   } catch (error) {
     next(error);

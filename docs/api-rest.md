@@ -85,6 +85,21 @@ Uso recomendado:
 - validacion previa a demo
 - comprobacion de integraciones externas
 
+### GET /api/architecture/stream
+
+Canal de Server-Sent Events (SSE) para paneles y monitoreo en tiempo real.
+
+Comportamiento:
+
+- emite snapshots periódicos del estado global
+- publica eventos `architecture`
+- incluye `overallStatus` y estado por servicio
+
+Uso recomendado:
+
+- dashboards operativos
+- alertas visuales de degradación en frontend
+
 ## 4. Emisor
 
 ### GET /api/issuer/status
@@ -258,6 +273,12 @@ Notas importantes:
 - La revocacion no pasa por un endpoint REST de backend.
 
 ## 9. Errores habituales de API
+
+## 10. Optimizaciones backend aplicadas
+
+- Verificación por hash con cache TTL en memoria para evitar llamadas redundantes.
+- Stream de estado de arquitectura por SSE para notificaciones en tiempo real.
+- Alertas automáticas opcionales por webhook mediante `ALERT_WEBHOOK_URL`.
 
 Errores frecuentes:
 
