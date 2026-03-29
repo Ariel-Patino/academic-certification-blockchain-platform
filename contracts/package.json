@@ -1,0 +1,31 @@
+{
+  "name": "tfm-certificacion-blockchain-contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Smart contracts workspace for the academic certification project.",
+  "scripts": {
+    "compile": "truffle compile",
+    "migrate": "truffle migrate",
+    "migrate:amoy": "truffle migrate --network polygonAmoy",
+    "test": "truffle test",
+    "test:local": "sh -c 'npx ganache --quiet --wallet.totalAccounts 20 --chain.chainId 1337 --server.host 127.0.0.1 --server.port 8545 >/tmp/tfm-ganache.log 2>&1 & GANACHE_PID=$!; sleep 3; npx truffle migrate --reset --network development >/tmp/tfm-migrate.log 2>&1; npx truffle test --network development; STATUS=$?; kill $GANACHE_PID; wait $GANACHE_PID 2>/dev/null; exit $STATUS'",
+    "hh:test": "hardhat test",
+    "hh:coverage": "hardhat coverage"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.6",
+    "@truffle/hdwallet-provider": "^2.1.15",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.1.2",
+    "@nomicfoundation/hardhat-ethers": "^3.1.3",
+    "@nomicfoundation/hardhat-toolbox": "^6.1.2",
+    "@openzeppelin/test-helpers": "^0.5.16",
+    "ethers": "^6.16.0",
+    "ganache": "^7.9.2",
+    "hardhat": "^2.28.6",
+    "solidity-coverage": "^0.8.17",
+    "truffle": "^5.11.5"
+  }
+}

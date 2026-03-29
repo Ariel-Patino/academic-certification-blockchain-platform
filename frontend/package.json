@@ -1,0 +1,39 @@
+{
+  "name": "tfm-certificacion-blockchain-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Frontend web application for academic certification workflows.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "ethers": "^6.16.0",
+    "html-to-image": "^1.11.13",
+    "jspdf": "^4.2.1",
+    "lucide-react": "^1.7.0",
+    "next": "15.2.2",
+    "qrcode": "^1.5.4",
+    "qrcode.react": "^4.2.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-hot-toast": "^2.6.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.14",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.0.11",
+    "@types/react-dom": "^19.0.4",
+    "@vitest/coverage-v8": "^4.1.2",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "16.2.1",
+    "jsdom": "^29.0.1",
+    "typescript": "^5.8.2",
+    "vitest": "^4.1.2"
+  }
+}
