@@ -1,62 +1,50 @@
-# Arquitectura del Sistema
+# System Architecture
 
-Fecha de actualización: 29 de marzo de 2026
+## Overview
 
-## Visión general
+The platform is organized into three primary layers:
 
-El proyecto está organizado en tres capas principales:
+1. Frontend (Next.js)
+2. Backend API (Express + TypeScript)
+3. Smart Contract Layer (Polygon Amoy)
 
-1. Contratos inteligentes (Solidity).
-2. Backend API (Node.js/Express/TypeScript).
-3. Frontend web (Next.js/React/TypeScript).
+A MongoDB database stores operational metadata and verification-related information.
 
-## Capa de contratos
+## Layer Responsibilities
 
-- Contrato principal: AcademicCertification.
-- Base NFT: ERC-721 mediante OpenZeppelin.
-- Funciones clave: gestión de emisor, emisión, verificación y revocación.
+### Frontend
 
-## Capa backend
+- Institutional user workflows
+- Wallet connection and signing flow
+- Certificate issuance/revocation screens
+- Public verification UI
+- Dashboard and service-health visualization
 
-Responsabilidades:
+### Backend API
 
-- Exponer endpoints REST.
-- Aplicar validaciones de dominio.
-- Integrar persistencia MongoDB.
-- Orquestar llamadas al contrato vía ethers.
-- Gestionar autenticación del emisor.
+- Business rules and validation
+- SIWE + JWT authentication
+- Contract interaction orchestration through ethers.js
+- Batch CSV processing and history APIs
+- Caching and webhook alerting logic
 
-Módulos relevantes:
+### Blockchain / Contract
 
-- controllers
-- services
-- models
-- routes
-- middlewares
+- Certificate issuance as ERC-721 tokens
+- On-chain immutable state
+- Revocation state transitions
+- Issuer authorization enforcement
 
-## Capa frontend
+## Data and Control Flow
 
-Responsabilidades:
+1. User action starts in frontend.
+2. Backend validates request and authorization.
+3. Backend executes blockchain transaction when required.
+4. Backend persists metadata in MongoDB.
+5. Frontend renders current state and verification output.
 
-- Capturar datos de emisión.
-- Mostrar resultados de verificación.
-- Gestionar revocación por interfaz.
-- Mostrar historial de certificados con paginación.
+## Runtime Observability
 
-Rutas principales:
-
-- /
-- /issue
-- /batch
-- /verify
-- /revoke
-- /certificates
-
-## Flujo resumido
-
-1. Emisor autentica su sesión.
-2. Emite certificado.
-3. Backend registra y persiste evidencia.
-4. Contrato refleja estado on-chain.
-5. Usuario verifica por código o documento.
-6. En caso requerido, emisor revoca.
+- `/health` for basic backend availability
+- `/api/architecture/status` for aggregated status
+- `/api/architecture/stream` (SSE) for real-time updates

@@ -1,29 +1,35 @@
-# Esquema de Certificado
+# Certificate Schema
 
-Fecha de actualización: 29 de marzo de 2026
+## Overview
 
-## Campos principales
+This schema defines the standard certificate payload used by the platform services.
 
-- id: identificador interno del certificado.
-- certificateHash: código de verificación del certificado.
-- studentName: nombre del titular.
-- studentId: identificador académico del titular.
-- recipientEmail: correo de referencia del titular.
-- programName: programa académico.
-- institutionName: institución emisora.
-- issuedDate: fecha de emisión.
-- expiryDate: fecha de expiración (si aplica).
-- status: estado actual (vigente, revocado, expirado).
+## JSON Schema (Conceptual)
 
-## Metadatos de blockchain
+```json
+{
+  "type": "object",
+  "required": [
+    "studentName",
+    "studentId",
+    "program",
+    "issueDate",
+    "issuer",
+    "verificationCode"
+  ],
+  "properties": {
+    "studentName": { "type": "string", "minLength": 1 },
+    "studentId": { "type": "string", "minLength": 1 },
+    "program": { "type": "string", "minLength": 1 },
+    "issueDate": { "type": "string", "format": "date" },
+    "issuer": { "type": "string", "minLength": 1 },
+    "verificationCode": { "type": "string", "minLength": 1 }
+  }
+}
+```
 
-- certificateId: identificador on-chain.
-- txHash: transacción de emisión o revocación.
-- contractAddress: contrato objetivo.
-- chainId: red objetivo.
+## Validation Rules
 
-## Reglas mínimas
-
-- Campos de titular e institución son obligatorios.
-- certificateHash debe ser único por certificado.
-- status debe mantener consistencia con el estado de cadena.
+- All required fields must be present.
+- Date fields must use ISO format where applicable.
+- Verification code must be unique for each issued certificate.

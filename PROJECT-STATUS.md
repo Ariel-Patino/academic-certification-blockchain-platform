@@ -1,93 +1,41 @@
-# Estado General del Proyecto
+# Project Status
 
-Fecha de actualización: 29 de marzo de 2026
+## Current Stage
 
-## Estado global
+The platform is in a functional demo-ready state for the TFM scope, with active support for:
 
-- Fase funcional: operativa.
-- Emisión, verificación y revocación: implementadas.
-- Historial: implementado con paginación configurable.
-- Contrato: actualizado con base ERC-721 (NFT).
-- Persistencia: MongoDB integrada en backend.
+- On-chain issuance of academic certificates (ERC-721)
+- Public verification workflows
+- Certificate revocation by authorized issuer
+- Batch issuance via CSV
+- SIWE + JWT authentication
+- Monitoring features (SSE architecture stream, health checks, alerts)
 
-## Componentes
+## Delivery Scope
 
-### Frontend
+Completed components:
 
-- Next.js 15 + React 19.
-- Vistas principales: inicio, emisión individual, emisión por lote, verificación, revocación, historial.
-- Historial de certificados con selector de elementos por página: 10, 25, 50, 100.
-- Valor por defecto de paginación: 10.
+- Smart contracts (deployment and interaction scripts)
+- Backend API with blockchain integration
+- Frontend with institutional workflows
+- Operational and technical documentation
+- Unit tests and coverage reports
 
-### Backend
+## Active Networks and Contract
 
-- API REST en Express + TypeScript.
-- Módulos de autenticación, emisión, verificación, auditoría y revocación.
-- Integración blockchain con ethers.
+- Network: Polygon Amoy Testnet
+- Contract: 0x481f2CA6a085abaE778450fC2fAF0e78b0a29CB2
 
-### Contratos
+## Repository Language Policy
 
-- Contrato AcademicCertification con capacidades de certificado y NFT (ERC-721).
-- Soporte de pruebas con Truffle/Hardhat.
+- GitLab: Spanish documentation
+- GitHub: English documentation
 
-## Pruebas y calidad
+This file is maintained in English for GitHub consistency.
 
-### Unit tests
+## Next Improvements (Optional)
 
-Backend:
-
-```bash
-cd backend
-npm test
-```
-
-Frontend:
-
-```bash
-cd frontend
-npm test
-```
-
-### Cobertura
-
-Backend (sin E2E):
-
-```bash
-cd backend
-npm run test:coverage
-```
-
-Frontend:
-
-```bash
-cd frontend
-npm run test:coverage
-```
-
-Contratos:
-
-```bash
-cd contracts
-npm run hh:coverage
-```
-
-## Build
-
-Backend:
-
-```bash
-cd backend
-npm run build
-```
-
-Frontend:
-
-```bash
-cd frontend
-npm run build
-```
-
-## Notas operativas
-
-- Para ejecución local con persistencia real, se recomienda levantar MongoDB.
-- Para pruebas de contrato en local, usar red de desarrollo y scripts del workspace contracts.
+1. Add CI pipeline for lint + tests + coverage gates.
+2. Add API contract tests and E2E flow tests.
+3. Add release tagging and changelog automation.
+4. Add multi-language documentation strategy.
