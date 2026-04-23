@@ -1,31 +1,31 @@
 # Academic Certification Blockchain Platform
 
-## Descripción
+## Description
 
-Sistema web para la emisión, verificación, revocación y trazabilidad de títulos académicos sobre blockchain. El proyecto integra un smart contract en Polygon Amoy con una API REST y una interfaz web institucional, permitiendo a emisores autorizados emitir certificados académicos con respaldo criptográfico verificable.
+Web platform for issuing, verifying, revoking, and tracking academic certificates on blockchain. The project integrates a smart contract on Polygon Amoy with a REST API and an institutional web interface, allowing authorized issuers to issue academic credentials with cryptographically verifiable backing.
 
-Cada certificado queda representado como un NFT (ERC-721), con su código de verificación anclado en la red, y puede ser validado de forma pública por cualquier persona sin necesidad de intermediarios. La revocación también se realiza directamente sobre el contrato, dejando trazabilidad permanente del motivo.
+Each certificate is represented as an NFT (ERC-721), with its verification code anchored on-chain, and can be publicly validated by anyone without intermediaries. Revocation is also executed directly on the contract, leaving a permanent trace of the reason.
 
-El sistema está diseñado para demostrar que la tecnología blockchain puede resolver de manera práctica los problemas de autenticidad y fraude documental en el sector educativo.
+The system is designed to demonstrate how blockchain technology can practically solve authenticity and document fraud issues in education.
 
-## Problema que Resuelve
+## Problem It Solves
 
-Los títulos académicos en papel o en formato digital tradicional son susceptibles a falsificación, alteración y pérdida. Las instituciones educativas carecen de mecanismos públicos, descentralizados y automáticamente verificables para acreditar la autenticidad de sus emisiones.
+Academic credentials in paper format or traditional digital files are vulnerable to forgery, tampering, and loss. Educational institutions often lack public, decentralized, and automatically verifiable mechanisms to prove authenticity.
 
-Este proyecto aborda ese problema mediante el registro inmutable de credenciales académicas en blockchain. Cualquier institución que opere como emisor autorizado puede emitir un título que quede anclado en la red, asignando un código de verificación único. Cualquier persona con ese código puede validar la autenticidad del título, su estado de vigencia y el emisor responsable, sin depender de la institución ni de ningún intermediario centralizado.
+This project addresses that problem through immutable credential registration on blockchain. Any institution operating as an authorized issuer can issue a certificate anchored on-chain with a unique verification code. Any person with that code can validate authenticity, current status, and responsible issuer, without depending on the institution or a centralized intermediary.
 
-## Tecnologías Utilizadas
+## Technologies Used
 
 - Blockchain: Polygon Amoy Testnet (chainId 80002)
 - Smart Contracts: Solidity + OpenZeppelin ERC-721
-- Herramientas de contrato: Truffle, Hardhat
+- Contract tooling: Truffle, Hardhat
 - Backend: Node.js, Express, TypeScript
 - Frontend: Next.js 15, React 19, TypeScript
-- Base de datos: MongoDB
-- Autenticación: Sign-In with Ethereum (EIP-4361) + JWT
-- Librerías: ethers.js, Mongoose, Lucide React, jsPDF
+- Database: MongoDB
+- Authentication: Sign-In with Ethereum (EIP-4361) + JWT
+- Libraries: ethers.js, Mongoose, Lucide React, jsPDF
 
-## Arquitectura del Sistema
+## System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -48,43 +48,43 @@ Este proyecto aborda ese problema mediante el registro inmutable de credenciales
 └─────────────────┘    └──────────────────┘
 ```
 
-Ver diagrama completo: [docs/diagramas.md](docs/diagramas.md) · [docs/diagramas-ilustrados.md](docs/diagramas-ilustrados.md)
+Full diagram: [docs/diagramas.md](docs/diagramas.md) · [docs/diagramas-ilustrados.md](docs/diagramas-ilustrados.md)
 
-## Instalación y Configuración
+## Installation and Configuration
 
 ### Quick Start
 
 ```bash
-# 1) Instalar dependencias
+# 1) Install dependencies
 cd contracts && npm install
 cd ../backend && npm install
 cd ../frontend && npm install
 
-# 2) Configurar variables de entorno
+# 2) Configure environment variables
 cd ../contracts && cp .env.example .env
 cd ../backend && cp .env.example .env
 cd ../frontend && cp .env.local.example .env.local
 
-# 3) Compilar contratos
+# 3) Compile contracts
 cd ../contracts && npm run compile
 
-# 4) Levantar MongoDB
+# 4) Start MongoDB
 docker run -d --name tfm-mongo -p 27017:27017 mongo:7
 
-# 5) Levantar backend y frontend
+# 5) Start backend and frontend
 cd ../backend && npm run dev
 cd ../frontend && npm run dev
 ```
 
-### Requisitos Previos
+### Prerequisites
 
 - Node.js v18+
 - npm
-- MetaMask instalado en el navegador
-- Docker (para levantar MongoDB local, opcional)
-- Acceso a un nodo RPC de Polygon Amoy (Alchemy, Infura o similar)
+- MetaMask installed in the browser
+- Docker (optional, to run MongoDB locally)
+- Access to a Polygon Amoy RPC node (Alchemy, Infura, or similar)
 
-### Instalación de Dependencias
+### Dependency Installation
 
 ```bash
 # Smart contracts
@@ -100,16 +100,16 @@ cd ../frontend
 npm install
 ```
 
-### Compilar Smart Contracts
+### Compile Smart Contracts
 
 ```bash
 cd contracts
 npx truffle compile
 ```
 
-### Configuración
+### Configuration
 
-1. Copiar archivos de entorno de ejemplo:
+1. Copy the environment template files:
 
 ```bash
 cd contracts && cp .env.example .env
@@ -117,7 +117,7 @@ cd ../backend && cp .env.example .env
 cd ../frontend && cp .env.local.example .env.local
 ```
 
-2. Configurar variables principales en `backend/.env`:
+2. Configure main variables in `backend/.env`:
 
 ```env
 PORT=3001
@@ -125,13 +125,13 @@ RPC_URL=<amoy-rpc-url>
 PRIVATE_KEY=<issuer-private-key>
 CONTRACT_ADDRESS=0x481f2CA6a085abaE778450fC2fAF0e78b0a29CB2
 CHAIN_ID=80002
-JWT_SECRET=<secreto-seguro>
+JWT_SECRET=<secure-secret>
 MONGO_URI=mongodb://localhost:27017
 MONGO_DATABASE_NAME=tfm_certificacion_blockchain
 FRONTEND_BASE_URL=http://localhost:3000
 ```
 
-3. Configurar `frontend/.env.local`:
+3. Configure `frontend/.env.local`:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:3001/api
@@ -139,17 +139,17 @@ NEXT_PUBLIC_AMOY_RPC_URL=https://rpc-amoy.polygon.technology/
 NEXT_PUBLIC_CONTRACT_ADDRESS=0x481f2CA6a085abaE778450fC2fAF0e78b0a29CB2
 ```
 
-4. Levantar MongoDB en local con Docker:
+4. Start local MongoDB with Docker:
 
 ```bash
 docker run -d --name tfm-mongo -p 27017:27017 mongo:7
 ```
 
-> Nota de seguridad: los valores anteriores son de ejemplo. No publicar claves privadas, tokens ni credenciales reales en el repositorio.
+> Security note: values above are examples. Do not commit private keys, tokens, or real credentials to the repository.
 
-### Ejecución
+### Running the Project
 
-Modo desarrollo:
+Development mode:
 
 Backend:
 
@@ -165,7 +165,7 @@ cd frontend
 npm run dev
 ```
 
-Modo build local:
+Local build mode:
 
 Backend:
 
@@ -183,97 +183,97 @@ npm run build
 npm start
 ```
 
-URLs de acceso:
+Access URLs:
 
 - Frontend: `http://localhost:3000`
 - Backend: `http://localhost:3001`
 - Health check: `http://localhost:3001/health`
 
-### Problemas Comunes
+### Common Issues
 
-Si encuentras errores de puerto ocupado, red de MetaMask incorrecta, variables faltantes o conexion RPC/MongoDB, revisa la guia de troubleshooting:
+If you encounter busy-port errors, wrong MetaMask network, missing variables, or RPC/MongoDB connection issues, check the troubleshooting guide:
 
-- [Troubleshooting y operación local](docs/troubleshooting-operacion-local.md)
+- [Troubleshooting and local operations](docs/troubleshooting-operacion-local.md)
 
-## Smart Contracts Desplegados
+## Deployed Smart Contracts
 
-- Red: Polygon Amoy Testnet
-- Contrato Principal: `0x481f2CA6a085abaE778450fC2fAF0e78b0a29CB2`
-- Explorador: [PolygonScan Amoy](https://amoy.polygonscan.com/address/0x481f2CA6a085abaE778450fC2fAF0e78b0a29CB2)
+- Network: Polygon Amoy Testnet
+- Main contract: `0x481f2CA6a085abaE778450fC2fAF0e78b0a29CB2`
+- Explorer: [PolygonScan Amoy](https://amoy.polygonscan.com/address/0x481f2CA6a085abaE778450fC2fAF0e78b0a29CB2)
 
-Esta dirección corresponde al contrato vigente para demos del TFM en Polygon Amoy.
+This address corresponds to the active contract used for TFM demos on Polygon Amoy.
 
-## Casos de Uso
+## Use Cases
 
-1. Registro de emisor autorizado por el administrador del contrato.
-2. Emisión de título académico individual con código de verificación único.
-3. Emisión de lote de títulos mediante carga de CSV.
-4. Verificación pública de autenticidad y estado por código o por archivo.
-5. Revocación de certificado por emisor autorizado directo sobre el contrato.
-6. Consulta del historial de emisiones con paginación configurable.
+1. Authorized issuer registration by contract administrator.
+2. Individual academic certificate issuance with unique verification code.
+3. Batch issuance through CSV upload.
+4. Public authenticity and status verification by code or file.
+5. Certificate revocation directly on contract by authorized issuer.
+6. Issuance history browsing with configurable pagination.
 
-## Capturas de Pantalla
+## Screenshots
 
-[Ver carpeta /screenshots](./screenshots)
+[View /screenshots folder](./screenshots)
 
-## Documentación
+## Documentation
 
-- [Arquitectura del sistema](docs/arquitectura.md)
-- [Manual de usuario](docs/manual-usuario.md)
-- [Manual técnico](docs/manual-tecnico-flujo-datos-amoy.md)
-- [API REST](docs/api-rest.md)
-- [Troubleshooting y operación local](docs/troubleshooting-operacion-local.md)
-- [Diagramas funcionales](docs/diagramas.md)
-- [Diagramas ilustrados](docs/diagramas-ilustrados.md)
-- [Diagramas estructurales del certificado](docs/certificate-model-diagrams.md)
+- [System architecture](docs/arquitectura.md)
+- [User manual](docs/manual-usuario.md)
+- [Technical manual](docs/manual-tecnico-flujo-datos-amoy.md)
+- [REST API](docs/api-rest.md)
+- [Troubleshooting and local operations](docs/troubleshooting-operacion-local.md)
+- [Functional diagrams](docs/diagramas.md)
+- [Illustrated diagrams](docs/diagramas-ilustrados.md)
+- [Certificate structural diagrams](docs/certificate-model-diagrams.md)
 
-## Diagramas Técnicos
+## Technical Diagrams
 
-- [Diagrama de flujos funcionales](docs/diagramas.md)
-- [Diagramas ilustrados con actores y entidades](docs/diagramas-ilustrados.md)
+- [Functional flow diagram](docs/diagramas.md)
+- [Illustrated diagrams with actors and entities](docs/diagramas-ilustrados.md)
 
-## Video Demostración
+## Demo Video
 
-[Ver video de demostración](https://www.loom.com/share/c1e399762132497cafc34e2972f0aad1)
+[Watch demo video](https://www.loom.com/share/c1e399762132497cafc34e2972f0aad1)
 
-## Innovaciones Implementadas
+## Implemented Innovations
 
-- Representación de certificados como NFT (ERC-721) sobre Polygon Amoy.
-- Verificación pública sin intermediarios por código o por archivo de credencial.
-- Revocación no-custodia: el emisor firma directamente sobre el contrato sin intermediario backend.
-- Emisión individual y por lote vía CSV con procesamiento registro a registro.
-- Historial de certificados con paginación configurable (10, 25, 50, 100 elementos).
-- Autenticación con Sign-In with Ethereum (EIP-4361) + JWT.
-- Interfaz institucional con lenguaje adaptado para entorno universitario.
-- Dashboard operativo con métricas en vivo de salud de arquitectura (Polygon/IPFS/DB).
-- Notificación en tiempo real de degradación/recuperación de servicios en frontend.
-- Tema dinámico claro/oscuro con selector persistente en cliente.
-- Endpoint SSE para streaming de estado de arquitectura (GET /api/architecture/stream).
-- Cacheo TTL en verificación por hash para reducir consultas repetidas a blockchain.
-- Alertas automáticas por webhook cuando la arquitectura entra en estado degraded o down.
+- Certificate representation as NFTs (ERC-721) on Polygon Amoy.
+- Public intermediary-free verification by code or credential file.
+- Non-custodial revocation: issuer signs directly on-chain without backend custody.
+- Individual and batch issuance via CSV with record-by-record processing.
+- Certificate history with configurable pagination (10, 25, 50, 100 items).
+- Authentication with Sign-In with Ethereum (EIP-4361) + JWT.
+- Institutional UX language tailored for university context.
+- Operational dashboard with live architecture health metrics (Polygon/IPFS/DB).
+- Real-time service degradation/recovery notifications in frontend.
+- Dynamic light/dark theme with persistent client-side selector.
+- SSE endpoint for architecture status streaming (GET /api/architecture/stream).
+- TTL caching for hash verification to reduce repeated blockchain queries.
+- Automatic webhook alerts when architecture enters degraded or down state.
 
-## Uso de Herramientas de IA
+## Use of AI Tools
 
-Este proyecto incorporó asistencia de IA como soporte técnico para acelerar análisis, documentación y mejoras funcionales, manteniendo validación manual en cada cambio relevante.
+This project used AI assistance as technical support to accelerate analysis, documentation, and functional improvements, while keeping manual validation for each relevant change.
 
-Herramientas utilizadas:
+Tools used:
 
-- GitHub Copilot Chat (GPT-5.3-Codex), para apoyo en refactorizaciones, ajustes de arquitectura y propuestas de implementación.
-- Asistencia de IA para redacción y mejora de documentación técnica y funcional (README, manual de usuario, manual técnico, API REST, troubleshooting).
+- GitHub Copilot Chat (GPT-5.3-Codex), for refactoring support, architecture adjustments, and implementation proposals.
+- AI assistance for drafting and improving technical and functional documentation (README, user manual, technical manual, REST API, troubleshooting).
 
-Aplicaciones concretas durante el desarrollo:
+Concrete applications during development:
 
-- Detección de brechas de documentación y estructuración de documentación por audiencias (usuario, técnico, operación).
-- Propuesta e implementación asistida de mejoras incrementales en frontend y backend (dashboard, estado en tiempo real por SSE, cacheo TTL, alertas por webhook, tema claro/oscuro).
-- Revisión de consistencia entre configuración de entorno, endpoints expuestos y flujo funcional de la aplicación.
+- Detection of documentation gaps and restructuring by audience (user, technical, operations).
+- Assisted proposal and implementation of incremental frontend/backend improvements (dashboard, real-time SSE status, TTL caching, webhook alerts, light/dark theme).
+- Consistency review between environment configuration, exposed endpoints, and application flow.
 
-Criterio de uso responsable:
+Responsible usage criteria:
 
-- La IA se utilizó como herramienta de apoyo, no como sustituto del criterio técnico.
-- Las decisiones finales de diseño, integración y validación fueron revisadas manualmente.
-- No se empleó IA para exponer credenciales ni para automatizar acciones fuera del control del desarrollador.
+- AI was used as a support tool, not as a substitute for technical judgment.
+- Final design, integration, and validation decisions were manually reviewed.
+- AI was not used to expose credentials or automate actions outside developer control.
 
-## Pruebas y Cobertura
+## Tests and Coverage
 
 ```bash
 # Unit tests backend
@@ -282,22 +282,22 @@ cd backend && npm test
 # Unit tests frontend
 cd frontend && npm test
 
-# Cobertura backend
+# Backend coverage
 cd backend && npm run test:coverage
 
-# Cobertura frontend
+# Frontend coverage
 cd frontend && npm run test:coverage
 
-# Cobertura contratos
+# Contracts coverage
 cd contracts && npm run hh:coverage
 ```
 
-## Autor
+## Author
 
-- **Nombre:** Ariel Patiño Flores
+- **Name:** Ariel Patino Flores
 - **Email:** ariel.patino.f@gmail.com
 - **LinkedIn:** [LinkedIn](https://www.linkedin.com/in/ariel-patino/)
 
-## Licencia
+## License
 
-MIT License. Ver [LICENSE](LICENSE).
+MIT License. See [LICENSE](LICENSE).
