@@ -1,4 +1,4 @@
-# Certificación Académica Digital con Blockchain — TFM
+# Academic Certification Blockchain Platform
 
 ## Descripción
 
