@@ -1,0 +1,4 @@
+# Default owner for the entire repository.
+# With branch protection + required code owner reviews enabled,
+# any PR targeting main requires approval from this owner.
+* @Ariel-Patino
