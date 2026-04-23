@@ -34,8 +34,8 @@ Frontend (Next.js) -> Backend API (Express) -> Smart Contract (Polygon Amoy)
 ```
 
 See detailed diagrams in:
-- [docs/diagramas.md](docs/diagramas.md)
-- [docs/diagramas-ilustrados.md](docs/diagramas-ilustrados.md)
+- [docs/functional-diagrams.md](docs/functional-diagrams.md)
+- [docs/illustrated-diagrams.md](docs/illustrated-diagrams.md)
 
 ## Installation and Setup
 
@@ -134,13 +134,13 @@ Access URLs:
 
 ## Documentation
 
-- [System architecture](docs/arquitectura.md)
-- [User manual](docs/manual-usuario.md)
-- [Technical manual](docs/manual-tecnico-flujo-datos-amoy.md)
+- [System architecture](docs/system-architecture.md)
+- [User manual](docs/user-manual.md)
+- [Technical manual](docs/amoy-data-flow-technical-manual.md)
 - [REST API](docs/api-rest.md)
-- [Troubleshooting](docs/troubleshooting-operacion-local.md)
-- [Functional diagrams](docs/diagramas.md)
-- [Illustrated diagrams](docs/diagramas-ilustrados.md)
+- [Troubleshooting](docs/local-operations-troubleshooting.md)
+- [Functional diagrams](docs/functional-diagrams.md)
+- [Illustrated diagrams](docs/illustrated-diagrams.md)
 - [Certificate model diagrams](docs/certificate-model-diagrams.md)
 
 ## Demo Video
