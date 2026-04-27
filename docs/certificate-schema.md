@@ -1,35 +1,29 @@
 # Certificate Schema
 
-## Overview
+Last updated: March 29, 2026
 
-This schema defines the standard certificate payload used by the platform services.
+## Main fields
 
-## JSON Schema (Conceptual)
+- id: internal certificate identifier.
+- certificateHash: certificate verification code.
+- studentName: certificate holder name.
+- studentId: holder academic identifier.
+- recipientEmail: holder reference email.
+- programName: academic program.
+- institutionName: issuing institution.
+- issuedDate: issuance date.
+- expiryDate: expiration date (if applicable).
+- status: current status (valid, revoked, expired).
 
-```json
-{
-  "type": "object",
-  "required": [
-    "studentName",
-    "studentId",
-    "program",
-    "issueDate",
-    "issuer",
-    "verificationCode"
-  ],
-  "properties": {
-    "studentName": { "type": "string", "minLength": 1 },
-    "studentId": { "type": "string", "minLength": 1 },
-    "program": { "type": "string", "minLength": 1 },
-    "issueDate": { "type": "string", "format": "date" },
-    "issuer": { "type": "string", "minLength": 1 },
-    "verificationCode": { "type": "string", "minLength": 1 }
-  }
-}
-```
+## Blockchain metadata
 
-## Validation Rules
+- certificateId: on-chain identifier.
+- txHash: issuance or revocation transaction.
+- contractAddress: target contract.
+- chainId: target network.
 
-- All required fields must be present.
-- Date fields must use ISO format where applicable.
-- Verification code must be unique for each issued certificate.
+## Minimum rules
+
+- Holder and institution fields are required.
+- certificateHash must be unique per certificate.
+- status must remain consistent with on-chain state.

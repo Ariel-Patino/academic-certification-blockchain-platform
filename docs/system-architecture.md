@@ -1,50 +1,62 @@
 # System Architecture
 
+Last updated: March 29, 2026
+
 ## Overview
 
-The platform is organized into three primary layers:
+The project is organized into three main layers:
 
-1. Frontend (Next.js)
-2. Backend API (Express + TypeScript)
-3. Smart Contract Layer (Polygon Amoy)
+1. Smart contracts (Solidity).
+2. Backend API (Node.js/Express/TypeScript).
+3. Web frontend (Next.js/React/TypeScript).
 
-A MongoDB database stores operational metadata and verification-related information.
+## Contract layer
 
-## Layer Responsibilities
+- Main contract: AcademicCertification.
+- NFT base: ERC-721 via OpenZeppelin.
+- Key functions: issuer management, issuance, verification, and revocation.
 
-### Frontend
+## Backend layer
 
-- Institutional user workflows
-- Wallet connection and signing flow
-- Certificate issuance/revocation screens
-- Public verification UI
-- Dashboard and service-health visualization
+Responsibilities:
 
-### Backend API
+- Expose REST endpoints.
+- Apply domain validations.
+- Integrate MongoDB persistence.
+- Orchestrate contract calls through ethers.
+- Manage issuer authentication.
 
-- Business rules and validation
-- SIWE + JWT authentication
-- Contract interaction orchestration through ethers.js
-- Batch CSV processing and history APIs
-- Caching and webhook alerting logic
+Relevant modules:
 
-### Blockchain / Contract
+- controllers
+- services
+- models
+- routes
+- middlewares
 
-- Certificate issuance as ERC-721 tokens
-- On-chain immutable state
-- Revocation state transitions
-- Issuer authorization enforcement
+## Frontend layer
 
-## Data and Control Flow
+Responsibilities:
 
-1. User action starts in frontend.
-2. Backend validates request and authorization.
-3. Backend executes blockchain transaction when required.
-4. Backend persists metadata in MongoDB.
-5. Frontend renders current state and verification output.
+- Capture issuance data.
+- Display verification results.
+- Manage revocation through the interface.
+- Show certificate history with pagination.
 
-## Runtime Observability
+Main routes:
 
-- `/health` for basic backend availability
-- `/api/architecture/status` for aggregated status
-- `/api/architecture/stream` (SSE) for real-time updates
+- /
+- /issue
+- /batch
+- /verify
+- /revoke
+- /certificates
+
+## Summary flow
+
+1. Issuer authenticates session.
+2. Issues certificate.
+3. Backend records and persists evidence.
+4. Contract reflects on-chain status.
+5. User verifies by code or document.
+6. When required, issuer revokes.

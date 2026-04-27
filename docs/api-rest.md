@@ -1,145 +1,290 @@
-# REST API Reference
+# REST API
 
-## Base URL
+Last updated: March 29, 2026
 
-`/api`
+This document summarizes the main backend API surface, authentication requirements, and endpoints consumed by the frontend.
 
-Typical local backend URL:
+Local base URL:
 
-- `http://localhost:3001/api`
+```text
+http://localhost:3001
+```
 
-## Authentication
+Interactive documentation:
 
-The platform uses SIWE (Sign-In with Ethereum) plus JWT.
-Protected endpoints require a valid bearer token.
+```text
+http://localhost:3001/api-docs
+```
 
-Authorization header format:
+## 1. General conventions
 
-`Authorization: Bearer <jwt-token>`
+- Exchange format: JSON.
+- Public health check: `GET /health`.
+- Protected endpoints use `Authorization: Bearer <jwt>`.
+- JWT is obtained through SIWE authentication.
+- Certificate revocation is non-custodial from frontend to contract; backend synchronizes state and audit.
 
-## Health Endpoints
+## 2. Authentication
+
+### POST /api/auth/nonce
+
+Requests a nonce and SIWE message for the issuer to sign with a wallet.
+
+Request example:
+
+```json
+{
+  "address": "0x1234567890abcdef1234567890abcdef12345678"
+}
+```
+
+Expected response:
+
+- nonce
+- SIWE message
+- nonce expiration date
+
+### POST /api/auth/verify
+
+Verifies the SIWE signature and returns the issuer JWT.
+
+Request example:
+
+```json
+{
+  "address": "0x1234567890abcdef1234567890abcdef12345678",
+  "nonce": "3f4e5a...",
+  "signature": "0xdeadbeef..."
+}
+```
+
+Expected response:
+
+- JWT token
+- role
+- issuer address
+- expiration time
+
+## 3. Health and architecture
 
 ### GET /health
 
-Returns service status and basic availability metadata.
+Checks whether the backend is operational.
 
-## Authentication Endpoints
+### GET /api/architecture
 
-### POST /auth/nonce
+Returns aggregated health status for:
 
-Generates a nonce to build the SIWE message.
+- Polygon Amoy
+- IPFS
+- MongoDB
 
-Expected body (example):
+Recommended usage:
 
-```json
-{
-  "address": "0x..."
-}
-```
+- local environment diagnostics
+- pre-demo validation
+- external integration checks
 
-### POST /auth/verify
+### GET /api/architecture/stream
 
-Validates signed SIWE message and returns JWT.
+Server-Sent Events (SSE) channel for dashboards and real-time monitoring.
 
-Expected body (example):
+Behavior:
 
-```json
-{
-  "message": "<siwe-message>",
-  "signature": "0x..."
-}
-```
+- emits periodic snapshots of global status
+- publishes `architecture` events
+- includes `overallStatus` and per-service status
 
-### POST /auth/logout
+Recommended usage:
 
-Invalidates session/token according to backend policy.
+- operational dashboards
+- visual degradation alerts in frontend
 
-## Certificate Endpoints
+## 4. Issuer
 
-### POST /certificates
+### GET /api/issuer/status
 
-Issues a single certificate.
+Queries the on-chain status of the connected issuer or issuer requested by the app.
 
-Example payload:
+Returns data such as:
 
-```json
-{
-  "studentName": "Jane Doe",
-  "studentId": "STU-001",
-  "program": "Computer Science",
-  "issueDate": "2026-04-01",
-  "issuer": "University Example"
-}
-```
+- whether it is active
+- issuer address
+- chainId
+- contract address
 
-### POST /certificates/batch
+## 5. Certificates
 
-Processes CSV-based batch issuance.
+### GET /api/certificates?issuer=0x...
 
-Typical behavior:
+Lists certificates issued by an issuer address.
 
-- Validates each row
-- Emits records one by one
-- Reports per-row result
+Main usage:
 
-### GET /certificates
+- frontend history view
+- refresh records by wallet
 
-Returns paginated issuance history.
+### POST /api/certificates
 
-Query params (common):
+Protected endpoint for single issuance.
 
-- `page`
-- `limit` (10, 25, 50, 100)
+Requires:
 
-### POST /certificates/:id/revoke
+- valid Bearer token
+- on-chain authorized issuer
 
-Revokes a certificate with a reason.
-
-## Verification Endpoints
-
-### GET /verify
-
-Public verification by code/hash/token reference.
-
-Typical query params:
-
-- `code` or equivalent verification reference
-
-### POST /verify/document
-
-Verification by uploaded file/hash extraction.
-
-## Architecture Monitoring Endpoints
-
-### GET /architecture/status
-
-Returns current aggregated architecture health.
-
-### GET /architecture/stream
-
-SSE endpoint with real-time architecture updates.
-
-## Error Format
-
-Typical error responses use HTTP status codes and JSON payloads:
+Minimum payload:
 
 ```json
 {
-  "error": "Error message",
-  "code": "ERROR_CODE"
+  "studentName": "Ada Lovelace",
+  "studentId": "A2026-001",
+  "recipientEmail": "ada@example.com",
+  "programName": "Blockchain Engineering",
+  "institutionName": "Universidad TFM"
 }
 ```
 
-Common statuses:
+Relevant optional fields:
 
-- `400` Bad Request
-- `401` Unauthorized
-- `403` Forbidden
-- `404` Not Found
-- `409` Conflict
-- `500` Internal Server Error
+- `badgeDescription`
+- `issuerUrl`
+- `issuedAt`
+- `recipient`
+- `certType`
+- `expiryDate`
+- `certificateId`
+- `replacesCertificateHash`
 
-## Notes
+Typical response:
 
-- Exact payload contracts may evolve; check backend source for latest validation rules.
-- Do not expose private keys or sensitive environment variables in requests/logs.
+- final issued document
+- `certificateHash`
+- `verificationUrl`
+- `metadataURI`
+- blockchain data such as `txHash`, `certificateId`, `chainId`, and `contractAddress`
+
+### POST /api/certificates/batch
+
+Protected endpoint for batch issuance.
+
+Requires:
+
+- valid Bearer token
+- certificate list in request body
+
+Base payload:
+
+```json
+{
+  "certificates": [
+    {
+      "studentName": "Grace Hopper",
+      "studentId": "A2026-002",
+      "recipientEmail": "grace@example.com",
+      "programName": "Computer Science",
+      "institutionName": "Universidad TFM"
+    }
+  ]
+}
+```
+
+Response includes consolidated progress and per-record results.
+
+## 6. Verification
+
+### GET /api/verify?certificateHash=0x...
+
+Queries certificate status by hash using query string.
+
+### POST /api/verify
+
+Allows the same hash query using JSON body.
+
+Example:
+
+```json
+{
+  "certificateHash": "0xabc123abc123abc123abc123abc123abc123abc123abc123abc123abc123abcd"
+}
+```
+
+Result may include:
+
+- on-chain existence
+- validity
+- status
+- issuer
+- recipient
+- issuance date
+- issuer name
+- replacement information when available
+
+### POST /api/verify/document
+
+Verifies a full JSON document.
+
+Combined validations:
+
+- Open Badges v2 structure
+- payload integrity
+- cryptographic signature
+- signer match
+- on-chain status
+- issuer authorization
+- time consistency
+- optional hashed identity match
+
+This endpoint is the richest semantically and technically for end-to-end validation.
+
+## 7. Audit
+
+### GET /api/audit-logs
+
+Queries audit events, especially useful for revocations and traceability.
+
+Supported parameters:
+
+- `certificateHash`
+- `revokedBy`
+- `eventType`
+- `fromBlock`
+- `toBlock`
+- `limit`
+- `offset`
+
+Recommended usage:
+
+- historical revocation inspection
+- processed event analysis
+- technical support and academic auditing
+
+## 8. Authentication and permissions
+
+JWT-protected endpoints:
+
+- `POST /api/certificates`
+- `POST /api/certificates/batch`
+
+Important notes:
+
+- Backend validates that the Bearer token is valid.
+- Backend validates that issuer is still authorized on-chain.
+- Revocation does not go through a backend REST endpoint.
+
+## 9. Common API errors
+
+## 10. Applied backend optimizations
+
+- Hash verification with in-memory TTL cache to avoid redundant calls.
+- Architecture status stream via SSE for real-time notifications.
+- Optional automatic webhook alerts using `ALERT_WEBHOOK_URL`.
+
+Frequent errors:
+
+- `401 UNAUTHORIZED`: missing token or invalid token.
+- `403 FORBIDDEN`: unauthorized issuer or certificate issued by another issuer.
+- `409 REVOKED`: queried certificate was revoked.
+- `400`: invalid payload, malformed hash, or inconsistent document.
+
+For operational descriptions of common environment failures, see `docs/local-operations-troubleshooting.md`.
