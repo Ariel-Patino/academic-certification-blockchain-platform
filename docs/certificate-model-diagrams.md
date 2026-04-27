@@ -10,7 +10,7 @@ This document summarizes the logical certificate structure, the relationship bet
 flowchart TB
     C[AcademicCertificateDocument]
 
-    C --> M1[@context]
+    C --> M1["@context"]
     C --> M2[id]
     C --> M3[type Assertion]
     C --> M4[issuedOn]
