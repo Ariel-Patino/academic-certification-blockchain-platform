@@ -292,11 +292,22 @@ cd frontend && npm run test:coverage
 cd contracts && npm run hh:coverage
 ```
 
+## Portfolio Snapshot
+
+> Highlights for technical recruiters and engineering leads.
+
+- **Architecture:** Full-stack dApp with clean separation of concerns — Solidity smart contract (ERC-721), Express/TypeScript REST API, and Next.js 15 frontend. All three layers independently testable and documented.
+- **Stack breadth:** Solidity · Node.js · TypeScript · React 19 · MongoDB · ethers.js · OpenZeppelin · Hardhat · Truffle · Docker · JWT · SIWE (EIP-4361).
+- **Design patterns:** Repository pattern for data access, service-layer abstraction over blockchain calls, TTL caching for repeated on-chain queries, SSE streaming for real-time status events, and webhook alerting on service degradation.
+- **Testing & coverage:** Unit tests across all three layers (Vitest for backend/frontend, Hardhat/Mocha for contracts) with coverage reports. Tests cover controllers, services, schema validation, and smart contract edge cases (unauthorized issuers, duplicate codes, revocation).
+- **Docker:** MongoDB provisioned via Docker for local and CI environments; Docker-ready setup documented in README and troubleshooting guide.
+- **Observability & logging:** Structured logging middleware, live architecture health dashboard (Polygon RPC / IPFS / DB), SSE endpoint for real-time degradation streaming, and automated webhook alerts on status transitions.
+
 ## Author
 
 - **Name:** Ariel Patino Flores
 - **Email:** ariel.patino.f@gmail.com
-- **LinkedIn:** [LinkedIn](https://www.linkedin.com/in/ariel-patino/)
+- **LinkedIn:** [linkedin.com/in/Ariel-Patino](https://www.linkedin.com/in/Ariel-Patino)
 
 ## License
 
